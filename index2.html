@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		.startBtn {
+			width: 400px;
+			height: 250px;
+			font-size: 50px;
+			font-family: segoe print;
+			cursor: pointer;
+		}
+		.main {
+			display: flex;
+			justify-content: center;
+			height: 940px;
+			background-image: url("bg.jpg");
+			background-size: 100% 100%;
+		}
+		.countBlock {
+			width: 400px;
+			height: 250px;
+			font-size: 50px;
+			font-family: segoe print;
+			display: none;
+		}
+		.gif {
+			width: 500px;
+			height: 600px;
+			background-image: url("gig.gif");
+			background-size: 100% 100%;
+			margin-right: 100px;
+		}
+		.win {
+			justify-content: center;
+			display: none;
+		}
+		.lose {
+			justify-content: center;
+			display: none;
+		}
+		.congratulations {
+			font-size: 50px;
+			font-family: segoe print;
+			justify-content: center;
+			display: none;
+		}
+		.loh {
+			font-size: 50px;
+			font-family: segoe print;
+			justify-content: center;
+			display: none;
+		}
+		.timer {
+			width: 400px;
+			height: 250px;
+			font-size: 50px;
+			font-family: segoe print;
+			cursor: pointer;
+		}
+		.restart {
+			font-size: 50px;
+			font-family: segoe print;
+			justify-content: center;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<div class="startBtn">Начать</div>
+		<div class="countBlock">Очки: <span class="count"> 0 </span></div>
+		<div class="timer">Время: <span class="time"></span></div>
+	</div>
+	<div class="win">
+		<div class="gif"></div>
+	</div>
+	<div class="lose">
+		<div class="gif"></div>
+	</div>
+	<div class="congratulations">Ты выиграл!</div>
+	<div class="loh">Ты проиграл</div>
+	<div class="restart" onclick = "reload()">Нажми для повторной игры</div>
+	<script type="text/javascript">
+		let time = document.querySelector(".time")
+		let num = 20;
+		time.innerHTML = num
+
+		let countBlock = document.querySelector(".countBlock");
+		let count = document.querySelector(".count");
+		let main = document.querySelector(".main");
+		let start = document.querySelector(".startBtn");
+		let counter = 0;
+		let win = document.querySelector(".win")
+		let lose = document.querySelector(".lose")
+		let loh = document.querySelector(".loh")
+		let congratulations = document.querySelector(".congratulations")
+		let restart = document.querySelector(".restart")
+		start.onclick = function() {
+			let interval = setInterval(minus, 1000)
+			
+
+			function minus() {
+				num = num - 1
+				time.innerHTML = num	
+			}
+			start.style.display = "none"
+			countBlock.style.display = "block"
+			let interval2 = setInterval(block, 600)	
+
+
+			let a = setTimeout(function () {
+				main.style.display = "none"
+				lose.style.display = "flex"
+    			loh.style.display = "flex"
+    			restart.style.display = "flex"
+    			clearInterval(interval2);
+    			clearInterval(interval);
+    			
+
+			}, 20000)
+ 
+
+			
+
+
+
+
+
+			function block() {
+				let interval3;
+			 	if (counter >= 20) {
+            		return;
+          		}
+				
+				let newBlock = document.createElement("div")
+				let left = -600
+
+				newBlock.style.backgroundImage = "url(duck.png)";
+				newBlock.style.backgroundSize = "100% 100%"  
+	        	newBlock.style.width = "300px"; 
+	        	newBlock.style.height = "300px"; 
+	        	newBlock.style.position = "absolute"; 
+	        	newBlock.style.left = left + "px" 
+	        	newBlock.style.top = getRandom() + "px"; 
+
+	        	newBlock.onclick = function() {
+	        		newBlock.style.display = "none";
+	        		counter = counter + 1;
+	        		count.innerHTML = counter
+	        		if (counter == 20) {
+	        			main.style.display = "none"
+	        			win.style.display = "flex"
+	        			congratulations.style.display = "flex"
+	        			restart.style.display = "flex"
+	        			clearInterval(interval2);
+	        			clearInterval(interval);
+	        			clearTimeout(a);
+	        		}
+	        		  	
+	        	}
+	        	main.appendChild(newBlock);
+				interval3 = setInterval(move, 300)
+				 
+				function move() {
+					if (counter >= 20) {
+						clearInterval(interval3);
+						return;
+					}
+					left = left + 600
+					newBlock.style.left = left + "px"
+					newBlock.style.transition = "3s";
+					newBlock.style.transitionTimingFunction = "linear";
+
+					if (left >= 6000) {
+						newBlock.style.display = "none"
+					} 
+				}				 
+			}
+		}
+		function getRandom() {
+	        ran = Math.round(Math.random()*(500-100)+100)
+	        return ran;
+        }
+        function reload () {
+        	location.reload()
+        }  
+  		   
+	</script>
+</body>
+</html>
